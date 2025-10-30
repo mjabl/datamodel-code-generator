@@ -1,11 +1,11 @@
-FROM python:3.12.0-alpine3.17 as builder
+FROM python:3.12.0-alpine3.17
 
-LABEL maintainer="Koudai Aono <koxudaxi@gmail.com>"
+# Install build dependencies
+RUN apk add --no-cache gcc musl-dev git
 
-RUN apk add --no-cache gcc musl-dev
+COPY . /app
+WORKDIR /app
 
-ARG VERSION
-
-RUN pip install "datamodel-code-generator[http]==$VERSION"
+RUN pip install .[http]
 
 ENTRYPOINT ["datamodel-codegen"]
